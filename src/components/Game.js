@@ -10,9 +10,10 @@ class Game extends Component {
     this.state = {
       players: [],
       deckCount: 1,
-      areHandsDealt: true
+      areHandsDealt: false
     };
     this.addPlayer = this.addPlayer.bind(this);
+    this.dealInitialCards = this.dealInitialCards.bind(this);
   }
 
   componentDidMount() {}
@@ -27,6 +28,10 @@ class Game extends Component {
 
   dealInitialCards(){
     console.log("dealing cards...")
+    this.setState({
+      areHandsDealt: true
+    })
+    //todo: fire off AJAX call to server for initial cards
   }
 
   render() {
@@ -43,7 +48,7 @@ class Game extends Component {
         <div className="players-wrapper">
           {players}
         </div>
-        <button className="success-button" onClick={this.dealInitialCards}>Place Your Bets</button>
+        <button id="deal-cards-button" className="success-button" onClick={this.dealInitialCards}>Place Your Bets</button>
       </div>
     );
   }

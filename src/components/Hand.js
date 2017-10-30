@@ -10,18 +10,15 @@ class Hand extends Component {
     this.state={
       wager: 10
     }
+    this.modifyWager = this.modifyWager.bind(this);
   }
 
-  increaseWager(){
-    this.setState(prevState => {
-      wager: prevState.wager + 5
+  modifyWager(amt){
+    var newWager = Math.max(5, this.state.wager + amt);
+    this.setState({
+      wager: newWager
     })
-  }
-
-  decreaseWager(){
-    this.setState(prevState => {
-      wager: Math.max(0, prevState.wager - 5)
-    })
+    console.log(this.state.wager);
   }
 
   componentDidMount(){
@@ -36,7 +33,7 @@ class Hand extends Component {
 
     return (
       <div className="hand-wrapper">
-        {this.props.isHandDealt ? cards : <Wager />}
+        {this.props.isHandDealt ? cards : <Wager wager={this.state.wager} modifyWager={this.modifyWager} />}
       </div>
     );
   }

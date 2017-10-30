@@ -7,23 +7,13 @@ class Wager extends Component {
     super(props);
   }
 
-  // increaseWager(){
-  //   this.setState(prevState => {
-  //     wager: prevState.wager + 5
-  //   })
-  // }
-  //
-  // decreaseWager(){
-  //   this.setState(prevState => {
-  //     wager: Math.max(0, prevState.wager - 5)
-  //   })
-  // }
-
   render() {
 
     return (
       <div className="wager-wrapper">
-        Wager
+        <button className="wager-button" onClick={() => this.props.modifyWager(-5)}>-</button>
+        <span>{this.props.wager}</span>
+        <button className="wager-button" onClick={() => this.props.modifyWager(5)}>+</button>
       </div>
     );
   }
