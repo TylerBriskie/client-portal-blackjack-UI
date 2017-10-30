@@ -22,6 +22,25 @@
   font-size: large;
 }
 
+.player-wrapper {
+  width: 30%;
+  height: 45%;
+}
+
+.pink {
+  background-color: pink;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.players-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
