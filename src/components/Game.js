@@ -9,7 +9,8 @@ class Game extends Component {
     super(props);
     this.state = {
       players: [],
-      deckCount: 1
+      deckCount: 1,
+      areHandsDealt: true
     };
     this.addPlayer = this.addPlayer.bind(this);
   }
@@ -24,8 +25,12 @@ class Game extends Component {
     });
   }
 
+  dealInitialCards(){
+    console.log("dealing cards...")
+  }
+
   render() {
-    let players = this.state.players.map((player, index) => <Player player={player} key={index}/>);
+    let players = this.state.players.map((player, index) => <Player player={player} key={index} isHandDealt={this.state.areHandsDealt}/>);
     console.log(players);
 
     return (
@@ -38,6 +43,7 @@ class Game extends Component {
         <div className="players-wrapper">
           {players}
         </div>
+        <button className="success-button" onClick={this.dealInitialCards}>Place Your Bets</button>
       </div>
     );
   }

@@ -9,9 +9,13 @@
 
 .App-header {
   background-color: #222;
-  height: 150px;
+  height: 100px;
   padding: 20px;
   color: white;
+}
+
+.App-header h1{
+  display:inline;
 }
 
 .App-title {
@@ -22,9 +26,18 @@
   font-size: large;
 }
 
+.player-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
 .player-wrapper {
-  width: 30%;
-  height: 45%;
+  display:flex;
+  flex-direction:column-reverse;
+  outline: black 1px solid;
+  height: 400px;
+  width: 300px;
 }
 
 .pink {
@@ -35,10 +48,20 @@
   background-color: blue;
 }
 
+.game-wrapper {
+  height: 100%;
+}
+
 .players-wrapper {
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-around;
+}
+
+.success-button {
+  background-color: #22AA22;
+  padding: .5em 3em;
+
 }
 
 @keyframes App-logo-spin {

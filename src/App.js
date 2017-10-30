@@ -15,6 +15,7 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">React Jack</h1>
+          <img src={logo} className="App-logo" alt="logo" />
         </header>
         <Game />
       </div>
