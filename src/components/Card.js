@@ -12,7 +12,7 @@ class Card extends Component {
 
     return (
       <div className="card-wrapper">
-        {this.props.value}
+        <img className="card-image" src={this.props.url} alt="{this.props.value}"/>
       </div>
     );
   }

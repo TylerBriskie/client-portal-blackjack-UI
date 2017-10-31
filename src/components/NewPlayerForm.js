@@ -17,7 +17,7 @@ class NewPlayerForm extends Component {
     name: '',
     bankroll: 100,
     wager: 10,
-    hands: [['AS', 'QD']]
+    hands: []
   };
 
   tempName = '';
@@ -37,7 +37,7 @@ class NewPlayerForm extends Component {
       name: '',
       bankroll: 100,
       wager: 10,
-      hands: [['AS', 'QD']]
+      hands: []
     };
     document.getElementById("new-player-form").reset();
   }

@@ -2,23 +2,28 @@ import React, { Component } from 'react';
 import '../App.css';
 import NewPlayerForm from './NewPlayerForm';
 import Player from './Player';
+import axios from 'axios';
 
 class Game extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      players: [],
-      deckCount: 1,
-      areHandsDealt: false
+        players: [],
+        deckCount: 1,
+        areHandsDealt: false,
+
     };
-    this.addPlayer = this.addPlayer.bind(this);
+
+      // let game = this;
+
+      this.addPlayer = this.addPlayer.bind(this);
     this.dealInitialCards = this.dealInitialCards.bind(this);
   }
 
-  componentDidMount() {}
 
-  addPlayer(player) {
+
+    addPlayer(player) {
     let newPlayersArray = this.state.players.slice();
     newPlayersArray.push(player);
     this.setState({
@@ -26,12 +31,34 @@ class Game extends Component {
     });
   }
 
+
+
   dealInitialCards(){
-    console.log("dealing cards...")
-    this.setState({
-      areHandsDealt: true
-    })
-    //todo: fire off AJAX call to server for initial cards
+      var payload = [];
+      for (var i=0; i<this.state.players.length; i++){
+          payload.push({
+              "id": this.state.players[i].id,
+              "name": this.state.players[i].name,
+              "firstBetAmount": this.state.players[i].wager
+          })
+      }
+
+      axios.post('http://localhost:8080/setup/', payload)
+          .then((response) => {
+              var tempPlayers = this.state.players.slice();
+              for (var i = 0; i < tempPlayers.length; i++){
+                  tempPlayers[i].hands.push(response.data[i].hand)
+                }
+              this.setState({
+                  areHandsDealt: true,
+                  players: tempPlayers
+              });
+              console.log("this.state: ", this.state);
+          })
+          .catch(function (error) {
+              console.log(error);
+          })
+
   }
 
   render() {

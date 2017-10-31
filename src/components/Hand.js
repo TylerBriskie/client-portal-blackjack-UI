@@ -9,27 +9,28 @@ class Hand extends Component {
     super(props);
     this.state={
       wager: 10
-    }
+    };
     this.modifyWager = this.modifyWager.bind(this);
   }
 
   modifyWager(amt){
+    console.log(this.props);
     var newWager = Math.max(5, this.state.wager + amt);
     this.setState({
       wager: newWager
-    })
+    });
     console.log(this.state.wager);
   }
 
   componentDidMount(){
-    console.log(this.props);
   }
 
   render() {
-    console.log(this.props.cards)
-    let cards = this.props.cards.map((card, index) =>
-      <Card value={card} key={index}/>
-    )
+    console.log(this.props.cards.cards)
+    let cards = this.props.cards.cards.map((card, index) => {
+          let urlStr = `https://deckofcardsapi.com/static/img/${card}.png`
+          return <Card value={card} key={index} url={urlStr} />
+        });
 
     return (
       <div className="hand-wrapper">
