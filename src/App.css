@@ -16,6 +16,9 @@
 
 .App-header h1{
   display:inline;
+  font-family: 'Rancho', cursive;
+  font-size: 60px;
+  margin: 0 5em;
 }
 
 .App-title {
@@ -24,6 +27,24 @@
 
 .App-intro {
   font-size: large;
+}
+
+button:focus {
+  outline: none;
+}
+
+.wager-button {
+  border-radius: 50%;
+  width: 3em;
+  height: 3em;
+  background-color: darkgreen;
+  color: white;
+  font-size: 24px;
+}
+
+.wager-amount {
+  font-size: 20px;
+  margin: 0 2em;
 }
 
 .player-info {
@@ -38,6 +59,11 @@
   outline: black 1px solid;
   height: 400px;
   width: 300px;
+  font-family: 'Days One', sans-serif;
+}
+
+#deal-cards-button {
+  margin-top: 2em;
 }
 
 .pink {

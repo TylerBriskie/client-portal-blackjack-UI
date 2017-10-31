@@ -21,7 +21,6 @@ class Player extends Component {
           <h3>{this.props.player.name}</h3>
           <h3>${this.props.player.bankroll}</h3 >
         </div>
-
         {hands}
       </div>
     );
