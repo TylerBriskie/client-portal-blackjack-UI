@@ -11,27 +11,20 @@ class Game extends Component {
     this.state = {
         players: [],
         deckCount: 1,
-        areHandsDealt: false,
-
+        areHandsDealt: false
     };
-
-      // let game = this;
 
       this.addPlayer = this.addPlayer.bind(this);
     this.dealInitialCards = this.dealInitialCards.bind(this);
   }
 
-
-
-    addPlayer(player) {
+  addPlayer(player) {
     let newPlayersArray = this.state.players.slice();
     newPlayersArray.push(player);
     this.setState({
       players: newPlayersArray
     });
   }
-
-
 
   dealInitialCards(){
       var payload = [];
@@ -43,7 +36,7 @@ class Game extends Component {
           })
       }
 
-      axios.post('http://localhost:8080/setup/', payload)
+      axios.post('https://cp-blackjack.herokuapp.com/setup/', payload)
           .then((response) => {
               var tempPlayers = this.state.players.slice();
               for (var i = 0; i < tempPlayers.length; i++){
@@ -53,17 +46,14 @@ class Game extends Component {
                   areHandsDealt: true,
                   players: tempPlayers
               });
-              console.log("this.state: ", this.state);
           })
           .catch(function (error) {
               console.log(error);
           })
-
   }
 
   render() {
     let players = this.state.players.map((player, index) => <Player player={player} key={index} isHandDealt={this.state.areHandsDealt}/>);
-    console.log(players);
 
     return (
       <div className="game-wrapper">
@@ -75,7 +65,9 @@ class Game extends Component {
         <div className="players-wrapper">
           {players}
         </div>
+        {this.state.players.length > 0 && !this.state.areHandsDealt ?
         <button id="deal-cards-button" className="success-button" onClick={this.dealInitialCards}>Place Your Bets</button>
+        : <div></div>}
       </div>
     );
   }

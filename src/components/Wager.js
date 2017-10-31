@@ -4,11 +4,10 @@ import '../App.css';
 class Wager extends Component {
 
   constructor(props) {
-    super(props);
+    super();
   }
 
   render() {
-
     return (
       <div className="wager-wrapper">
         <button className="wager-button" onClick={() => this.props.modifyWager(-5)}>-</button>

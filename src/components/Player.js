@@ -1,27 +1,44 @@
 import React, { Component } from 'react';
 import Hand from './Hand';
+import Wager from './Wager';
 import '../App.css';
 
 class Player extends Component {
 
   constructor(props) {
-    super(props);
+    super();
+
+    this.state= {
+      wager: 10,
+      bankRoll: 90
+    }
+    this.modifyWager = this.modifyWager.bind(this);
+  }
+
+  modifyWager(amt){
+    if(amt <= this.state.bankRoll && (this.state.wager + amt > 0)) {
+      var newWager = Math.max(5, this.state.wager + amt);
+      var newBankRoll = this.state.bankRoll - amt;
+      this.setState({
+        wager: newWager,
+        bankRoll: newBankRoll
+      });
+    }
+
   }
 
   render() {
 
-    console.log(this.props.player.hands);
     let hands = this.props.player.hands.map((hand, index) =>
-      <Hand isHandDealt = {this.props.isHandDealt} cards={hand} wager={10} key={index}/>
+      <Hand isHandDealt = {this.props.isHandDealt} cards={hand} wager={this.state.wager} key={index}/>
     )
-    console.log(hands);
     return (
       <div className="player-wrapper">
         <div className="player-info">
           <h3>{this.props.player.name}</h3>
-          <h3>${this.props.player.bankroll}</h3 >
+          <h3>${this.state.bankRoll}</h3 >
         </div>
-        {hands}
+        {hands.length > 0 ? hands : <Wager modifyWager={this.modifyWager} wager={this.state.wager}/>}
       </div>
     );
   }

@@ -15,9 +15,7 @@ class NewPlayerForm extends Component {
   tempPlayer = {
     id: this.idIndex,
     name: '',
-    bankroll: 100,
-    wager: 10,
-    hands: []
+    hands: [['3S', 'AS', 'AS', 'AS', 'AS', 'AS', 'AS']]
   };
 
   tempName = '';
@@ -35,9 +33,7 @@ class NewPlayerForm extends Component {
     this.tempPlayer = {
       id: this.idIndex,
       name: '',
-      bankroll: 100,
-      wager: 10,
-      hands: []
+      hands: [['3s', 'As', 'As', 'As', 'As', 'As', 'As']]
     };
     document.getElementById("new-player-form").reset();
   }
