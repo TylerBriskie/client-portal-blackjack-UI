@@ -23,20 +23,16 @@ class Hand extends Component {
   }
 
   calculateAceCount = (cards) => {
-      console.log(cards);
       let count = 0;
       cards.forEach((card) => {
           if (card.split('')[0] === 'A'){
               count++;
           }
       });
-      console.log('ace count from calculateAceCount: ', count);
       return count;
   };
 
   getCardValue = (card) => {
-    console.log(card.split('')[0]);
-    var newAceCount = 0;
     let val;
     switch(card.split('')[0]){
       case 'Q':
@@ -66,12 +62,10 @@ class Hand extends Component {
     while(sum > 21 && aceCount > 0) {
       sum = sum - 10;
       aceCount--;
-      console.log(sum, aceCount);
     }
     if (aceCount > 0 && val < 21){
         sum = val-10;
     }
-    console.log(sum);
      return sum;
   }
 
@@ -119,11 +113,12 @@ class Hand extends Component {
   cardComponents = [];
 
   componentWillMount(){
-      let cardRay = this.props.cards.cards;
+        console.log(this.props);
+      let cardRay = this.props.cards.cards ? this.props.cards.cards : this.props.cards;
+      console.log(cardRay, this.props.isDealer);
       this.setState({
           cards: cardRay
       });
-      let cardTotal = <div className="card-total">Total: {this.state.hardValue}</div>;
   }
 
   reRenderCards(){
@@ -134,6 +129,7 @@ class Hand extends Component {
       });
       this.calculateValue();
   }
+
   componentDidMount(){
       this.reRenderCards();
   }
@@ -145,14 +141,13 @@ class Hand extends Component {
            this.setState({
                cards: res.data[this.props.playerId-1].hand.cards
            }, ()=>{
-               console.log(this.state.cards)
                this.reRenderCards();
                this.calculateValue();
+
            });
        }).catch(err => {
            console.log(err);
        })
-      this.forceUpdate();
   }
 
   render() {
@@ -161,11 +156,14 @@ class Hand extends Component {
       <div>
       <div className="hand-wrapper">
         {
-          this.props.isHandDealt ?
+          this.props.isHandDealt || this.props.isDealer ?
           this.cardComponents :
           <Wager wager={this.props.wager} modifyWager={this.props.modifyWager} />
         }
-        <Actions isHittable={this.state.isHittable} hit={this.hit}/>
+        {
+            this.props.isDealer ? '' : <Actions isHittable={this.state.isHittable} hit={this.hit}/>
+        }
+
       </div>
           {
               this.props.isHandDealt ?

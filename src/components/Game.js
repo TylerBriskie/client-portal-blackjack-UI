@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import NewPlayerForm from './NewPlayerForm';
 import Player from './Player';
+import Dealer from './Dealer';
 import axios from 'axios';
 
 class Game extends Component {
@@ -45,9 +46,7 @@ class Game extends Component {
             for (var i = 0; i < tempPlayers.length; i++){
                 tempPlayers[i].hands.push(response.data[i].hand)
               }
-            console.log(tempPlayers[0].hands[0].cards);
-            //i++;
-            //this.dealerHand = response.data[i].hand.cards;
+            this.dealerHand.cards = response.data[i].hand.cards;
             this.setState({
                 areHandsDealt: true,
                 players: tempPlayers
@@ -75,10 +74,10 @@ class Game extends Component {
       return (
       <div className="game-wrapper">
         <div className="new-player-form-wrapper">
-          <NewPlayerForm addPlayer={this.addPlayer}/>
+            {!this.state.areHandsDealt ? <NewPlayerForm addPlayer={this.addPlayer}/> : '' }
         </div>
         <div className="dealer-wrapper">
-            {/*<Dealer isDealer={true} key={-1} hands={this.dealerHand} isHandDealt={this.state.areHandsDealt}/>*/}
+            <Dealer isDealer={true} isHandDealt={this.state.areHandsDealt} cards={this.dealerHand} />
         </div>
         <div className="players-wrapper">
           {players}

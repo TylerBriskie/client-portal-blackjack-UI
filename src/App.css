@@ -109,6 +109,16 @@ button:focus {
   justify-content: space-around;
 }
 
+.dealer-wrapper {
+  display:flex;
+  flex-direction:column-reverse;
+  height: 300px;
+  width: 300px;
+  margin: auto;
+  font-family: 'Days One', sans-serif;
+  outline: red 1px solid;
+}
+
 .actions-wrapper {
   width: 100%;
   display:flex;

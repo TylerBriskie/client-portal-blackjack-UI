@@ -33,7 +33,7 @@ class Player extends Component {
     console.log(this.props.player);
 
     let hands = this.props.player.hands.map((hand, index) =>
-      <Hand isHandDealt = {this.props.isHandDealt} playerId={this.props.player.id} cards={hand} wager={this.state.wager} key={index}/>
+      <Hand isHandDealt = {this.props.isHandDealt} isDealer={false} playerId={this.props.player.id} cards={hand} wager={this.state.wager} key={index}/>
     );
     return (
       <div className="player-wrapper">
