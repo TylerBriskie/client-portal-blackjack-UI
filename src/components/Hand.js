@@ -17,6 +17,7 @@ class Hand extends Component {
         isBusted: false,
         hasBlackJack: false,
         cards: [],
+        holeCard: false
     }
   }
 
@@ -103,7 +104,8 @@ class Hand extends Component {
       console.log(this.props);
       let cardRay = this.props.cards.cards;
       this.setState({
-          cards: cardRay
+          cards: cardRay,
+          holeCard: this.props.isDealer ? true : false
       })
       let cardTotal = <div className="card-total">Total: {this.state.hardValue}</div>;
   }

@@ -29,7 +29,6 @@ class NewPlayerForm extends Component {
     this.tempPlayer.name = this.tempName;
     (() => this.props.addPlayer(this.tempPlayer))();
     this.idIndex++
-    // let obj = JSON.stringify({cards: ['AS', 'QC'], wager: 10})
     this.tempPlayer = {
       id: this.idIndex,
       name: '',

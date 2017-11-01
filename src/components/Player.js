@@ -9,6 +9,7 @@ class Player extends Component {
     super();
 
     this.state= {
+      isDealer: false,
       wager: 10,
       bankRoll: 90
     }
@@ -27,11 +28,9 @@ class Player extends Component {
 
   }
 
-  componentWillMount(){
-    console.log(this.props);
-  }
-
   render() {
+
+    console.log(this.props.player);
 
     let hands = this.props.player.hands.map((hand, index) =>
       <Hand isHandDealt = {this.props.isHandDealt} playerId={this.props.player.id} cards={hand} wager={this.state.wager} key={index}/>

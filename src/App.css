@@ -117,11 +117,19 @@ button:focus {
 }
 
 .hit-button {
+  font-family: 'Days One', sans-serif;
   background-color: #22AA22;
+  height: 2em;
+  width: 5em;
+  color: white;
 }
 
 .stay-button {
-  background-color: #aa7700;
+  font-family: 'Days One', sans-serif;
+  background-color: #aa9700;
+  height: 2em;
+  width: 5em;
+  color: white;
 }
 
 .success-button {

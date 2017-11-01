@@ -26,21 +26,28 @@ class Game extends Component {
     });
   }
 
+  dealerHand = [];
+
   dealInitialCards(){
       var payload = [];
       for (var i=0; i<this.state.players.length; i++){
           payload.push({
               "id": this.state.players[i].id,
               "name": this.state.players[i].name,
-              "firstBetAmount": this.state.players[i].wager
+              "firstBetAmount": this.state.players[i].wager,
           })
       }
+
       axios.post('https://cp-blackjack.herokuapp.com/setup/', payload)
         .then((response) => {
+          console.log(response)
             var tempPlayers = this.state.players.slice();
             for (var i = 0; i < tempPlayers.length; i++){
                 tempPlayers[i].hands.push(response.data[i].hand)
               }
+            console.log(tempPlayers[0].hands[0].cards);
+            //i++;
+            //this.dealerHand = response.data[i].hand.cards;
             this.setState({
                 areHandsDealt: true,
                 players: tempPlayers
@@ -63,14 +70,15 @@ class Game extends Component {
   }
 
   render() {
-    let players = this.state.players.map((player, index) => <Player player={player} key={index} isHandDealt={this.state.areHandsDealt}/>);
-
-    return (
+      let players = this.state.players.map((player, index) => <Player player={player} key={index} isHandDealt={this.state.areHandsDealt}/>);
+      return (
       <div className="game-wrapper">
         <div className="new-player-form-wrapper">
           <NewPlayerForm addPlayer={this.addPlayer}/>
         </div>
-        <p>Dealer</p>
+        <div className="dealer-wrapper">
+            {/*<Dealer isDealer={true} key={-1} hands={this.dealerHand} isHandDealt={this.state.areHandsDealt}/>*/}
+        </div>
         <div className="players-wrapper">
           {players}
         </div>
