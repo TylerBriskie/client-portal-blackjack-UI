@@ -37,19 +37,19 @@ class Game extends Component {
       }
 
       axios.post('https://cp-blackjack.herokuapp.com/setup/', payload)
-          .then((response) => {
-              var tempPlayers = this.state.players.slice();
-              for (var i = 0; i < tempPlayers.length; i++){
-                  tempPlayers[i].hands.push(response.data[i].hand)
-                }
-              this.setState({
-                  areHandsDealt: true,
-                  players: tempPlayers
-              });
-          })
-          .catch(function (error) {
-              console.log(error);
-          })
+        .then((response) => {
+            var tempPlayers = this.state.players.slice();
+            for (var i = 0; i < tempPlayers.length; i++){
+                tempPlayers[i].hands.push(response.data[i].hand)
+              }
+            this.setState({
+                areHandsDealt: true,
+                players: tempPlayers
+            });
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
   }
 
   render() {
@@ -57,10 +57,9 @@ class Game extends Component {
 
     return (
       <div className="game-wrapper">
-        <div className="new-player-form-wrapper {1===1 ? 'pink' : 'blue'}">
+        <div className="new-player-form-wrapper">
           <NewPlayerForm addPlayer={this.addPlayer}/>
         </div>
-
         <p>Dealer</p>
         <div className="players-wrapper">
           {players}

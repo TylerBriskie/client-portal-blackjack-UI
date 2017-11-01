@@ -39,7 +39,7 @@ class Hand extends Component {
         val = 11;
         break;
       default:
-        val = parseInt(card.split('')[0]);
+        val = parseInt(card.split('')[0], 10);
     }
     this.setState({
       aceCount: newAceCount
@@ -48,14 +48,14 @@ class Hand extends Component {
   }
 
   softVal(val) {
-    let sum = val;
-    let aceCount = this.state.aceCount
-    while(sum > 21 && aceCount > 0) {
-      sum = sum - 10;
-      aceCount--;
-      console.log(sum, aceCount);
-    }
-     return sum;
+    // let sum = val;
+    // let aceCount = this.state.aceCount
+    // while(sum > 21 && aceCount > 0) {
+    //   sum = sum - 10;
+    //   aceCount--;
+    //   console.log(sum, aceCount);
+    // }
+     return val;
   }
 
   calculateValue = () => {
@@ -70,8 +70,9 @@ class Hand extends Component {
     });
     console.log(this.state.aceCount, 'ACECOUNT');
     if(this.state.aceCount > 0) {
+      let temp = this.softVal(sum);
       this.setState({
-        softValue: this.softVal(sum)
+        softValue: temp
       });
     }
 
@@ -95,9 +96,8 @@ class Hand extends Component {
 
       <div>
       <div className="hand-wrapper">
-        {console.log(this.props)}
-
-        {this.props.isHandDealt ?
+        {
+          this.props.isHandDealt ?
           cards :
           <Wager wager={this.props.wager} modifyWager={this.props.modifyWager} />
         }
