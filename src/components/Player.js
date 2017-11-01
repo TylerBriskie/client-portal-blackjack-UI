@@ -27,11 +27,15 @@ class Player extends Component {
 
   }
 
+  componentWillMount(){
+    console.log(this.props);
+  }
+
   render() {
 
     let hands = this.props.player.hands.map((hand, index) =>
-      <Hand isHandDealt = {this.props.isHandDealt} cards={hand} wager={this.state.wager} key={index}/>
-    )
+      <Hand isHandDealt = {this.props.isHandDealt} playerId={this.props.player.id} cards={hand} wager={this.state.wager} key={index}/>
+    );
     return (
       <div className="player-wrapper">
         <div className="player-info">

@@ -109,6 +109,21 @@ button:focus {
   justify-content: space-around;
 }
 
+.actions-wrapper {
+  width: 100%;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.hit-button {
+  background-color: #22AA22;
+}
+
+.stay-button {
+  background-color: #aa7700;
+}
+
 .success-button {
   background-color: #22AA22;
   padding: .5em 3em;

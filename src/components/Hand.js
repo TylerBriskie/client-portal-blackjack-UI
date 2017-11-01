@@ -2,24 +2,39 @@ import React, { Component } from 'react';
 import '../App.css';
 import Card from './Card'
 import Wager from './Wager'
+import axios from 'axios';
+import Actions from './Actions'
 
 class Hand extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      hardValue: 0,
-      softValue: 0,
-      aceCount: 0,
-      canHit: true,
-      isBusted: false,
-      hasBlackJack: false
+        hardValue: 0,
+        softValue: 0,
+        aceCount: 0,
+        canHit: true,
+        isBusted: false,
+        hasBlackJack: false,
+        cards: [],
     }
   }
 
+  calculateAceCount = (cards) => {
+      console.log(cards);
+      let count = 0;
+      cards.forEach((card) => {
+          if (card.split('')[0] === 'A'){
+              count++;
+          }
+      });
+      console.log('ace count from calculateAceCount: ', count);
+      return count;
+  };
+
   getCardValue = (card) => {
     console.log(card.split('')[0]);
-    let newAceCount = this.state.aceCount;
+    var newAceCount = 0;
     let val;
     switch(card.split('')[0]){
       case 'Q':
@@ -35,32 +50,31 @@ class Hand extends Component {
         val = 10;
         break;
       case 'A':
-        newAceCount++;
         val = 11;
         break;
       default:
         val = parseInt(card.split('')[0], 10);
     }
-    this.setState({
-      aceCount: newAceCount
-    });
     return val;
-  }
+  };
 
   softVal(val) {
-    // let sum = val;
-    // let aceCount = this.state.aceCount
-    // while(sum > 21 && aceCount > 0) {
-    //   sum = sum - 10;
-    //   aceCount--;
-    //   console.log(sum, aceCount);
-    // }
-     return val;
+    let sum = val;
+    let aceCount = this.state.aceCount
+    while(sum > 21 && aceCount > 0) {
+      sum = sum - 10;
+      aceCount--;
+      console.log(sum, aceCount);
+    }
+    if (aceCount > 0 && val < 21){
+        sum = val-10;
+    }
+    console.log(sum);
+     return sum;
   }
 
   calculateValue = () => {
     let hand = this.props.cards.cards ? this.props.cards.cards : this.props.cards;
-    console.log(hand);
     let sum = 0;
     hand.forEach((card) => {
       sum += this.getCardValue(card)
@@ -68,29 +82,53 @@ class Hand extends Component {
     this.setState({
       hardValue: sum
     });
-    console.log(this.state.aceCount, 'ACECOUNT');
-    if(this.state.aceCount > 0) {
-      let temp = this.softVal(sum);
+    let tempAces = this.calculateAceCount(hand)
+    this.setState({
+        aceCount: tempAces,
+    }, () =>{
+        if(this.state.aceCount > 0) {
+            let temp = this.softVal(sum);
+            this.setState({
+                softValue: temp
+            });
+        }
+    });
+
+
+  };
+
+  cardComponents = [];
+
+  componentWillMount(){
+      console.log(this.props);
+      let cardRay = this.props.cards.cards;
       this.setState({
-        softValue: temp
+          cards: cardRay
+      })
+      let cardTotal = <div className="card-total">Total: {this.state.hardValue}</div>;
+  }
+
+
+  componentDidMount(){
+      this.cardComponents = this.state.cards.map((card, index) => {
+          this.getCardValue(card);
+          let urlStr = `https://deckofcardsapi.com/static/img/${card}.png`
+          return <Card value={card} key={index} url={urlStr} />
       });
-    }
+      this.calculateValue();
 
   }
 
   componentDidMount(){
-    this.calculateValue();
+      console.log(this.props.playerId);
+  }
+
+  hit(){
+      // axios.get('https://cp-blackjack.herokuapp.com/')
   }
 
   render() {
-    console.log(this.state);
-    let cardRay = this.props.cards.cards ? this.props.cards.cards : ['AD', '0S'];
-    let cards = cardRay.map((card, index) => {
-          this.getCardValue(card);
-          let urlStr = `https://deckofcardsapi.com/static/img/${card}.png`
-          return <Card value={card} key={index} url={urlStr} />
-        });
-    let cardTotal = <div className="card-total">{this.state.hardValue}</div>;
+
 
     return (
 
@@ -98,15 +136,16 @@ class Hand extends Component {
       <div className="hand-wrapper">
         {
           this.props.isHandDealt ?
-          cards :
+          this.cardComponents :
           <Wager wager={this.props.wager} modifyWager={this.props.modifyWager} />
         }
-
+        <Actions hit={this.hit}/>
       </div>
-        Total: {this.state.hardValue > 0 ?
-        this.state.hardValue :
-        ''
-      }
+          {
+              this.props.isHandDealt ?
+                  <div className="card-total">Total: {this.state.hardValue} {this.state.softValue > 0 ? ', soft (' + this.state.softValue + ')': ''}</div> :
+                  ''
+          }
       </div>
     );
   }

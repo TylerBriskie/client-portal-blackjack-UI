@@ -35,7 +35,6 @@ class Game extends Component {
               "firstBetAmount": this.state.players[i].wager
           })
       }
-
       axios.post('https://cp-blackjack.herokuapp.com/setup/', payload)
         .then((response) => {
             var tempPlayers = this.state.players.slice();
@@ -50,6 +49,17 @@ class Game extends Component {
         .catch(function (error) {
             console.log(error);
         })
+  }
+
+  componentWillMount(){
+      axios.get('https://cp-blackjack.herokuapp.com/resetHand/')
+          .then((res) => {
+            console.log(res);
+          })
+          .catch(function(err){
+              console.log(err);
+          })
+
   }
 
   render() {
