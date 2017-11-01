@@ -13,12 +13,11 @@ class Hand extends Component {
         hardValue: 0,
         softValue: 0,
         aceCount: 0,
-        canHit: true,
         isBusted: false,
         hasBlackJack: false,
         cards: [],
-        holeCard: false
-    }
+        isHittable: true,
+    };
     this.hit = this.hit.bind(this);
     this.reRenderCards = this.reRenderCards.bind(this);
   }
@@ -83,19 +82,36 @@ class Hand extends Component {
       sum += this.getCardValue(card)
     });
     this.setState({
-      hardValue: sum
+        hardValue: sum,
     });
     let tempAces = this.calculateAceCount(hand)
     this.setState({
         aceCount: tempAces,
     }, () =>{
-        if(this.state.aceCount > 0) {
-            let temp = this.softVal(sum);
+
+        let temp = this.softVal(sum);
+        this.setState({
+            softValue: temp
+        });
+
+        if (this.state.softValue >= 21){
             this.setState({
-                softValue: temp
-            });
+                isHittable: false
+            })
+        }
+        if (this.state.softValue > 21){
+            this.setState({
+                isBusted: true
+            })
+        }
+
+        if (hand.length === 2 && this.state.hardValue === 21){
+            this.setState({
+                hasBlackJack: true
+            })
         }
     });
+
 
 
   };
@@ -103,12 +119,10 @@ class Hand extends Component {
   cardComponents = [];
 
   componentWillMount(){
-      console.log(this.props);
       let cardRay = this.props.cards.cards;
       this.setState({
-          cards: cardRay,
-          //holeCard: this.props.isDealer ? true : false
-      })
+          cards: cardRay
+      });
       let cardTotal = <div className="card-total">Total: {this.state.hardValue}</div>;
   }
 
@@ -126,11 +140,8 @@ class Hand extends Component {
 
 
   hit(){
-      console.log(this.props.playerId)
        axios.get(`https://cp-blackjack.herokuapp.com/hit/${this.props.playerId}/`).then((res)=> {
-           console.log(this.state.cards);
 
-           console.log(res.data[this.props.playerId-1].hand.cards);
            this.setState({
                cards: res.data[this.props.playerId-1].hand.cards
            }, ()=>{
@@ -141,12 +152,12 @@ class Hand extends Component {
        }).catch(err => {
            console.log(err);
        })
+      this.forceUpdate();
   }
 
   render() {
-
-    return (
-
+      console.log(this.state.isHittable)
+      return (
       <div>
       <div className="hand-wrapper">
         {
@@ -154,11 +165,11 @@ class Hand extends Component {
           this.cardComponents :
           <Wager wager={this.props.wager} modifyWager={this.props.modifyWager} />
         }
-        <Actions hit={this.hit}/>
+        <Actions isHittable={this.state.isHittable} hit={this.hit}/>
       </div>
           {
               this.props.isHandDealt ?
-                  <div className="card-total">Total: {this.state.hardValue} {this.state.softValue > 0 ? ', soft (' + this.state.softValue + ')': ''}</div> :
+                  <div className="card-total">Total: {this.state.hardValue} {this.state.softValue !== this.state.hardValue ? ', soft (' + this.state.softValue + ')': ''}</div> :
                   ''
           }
       </div>
