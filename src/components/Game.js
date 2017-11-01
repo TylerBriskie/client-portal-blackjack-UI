@@ -70,6 +70,7 @@ class Game extends Component {
   }
 
   render() {
+
       let players = this.state.players.map((player, index) => <Player player={player} key={index} isHandDealt={this.state.areHandsDealt}/>);
       return (
       <div className="game-wrapper">

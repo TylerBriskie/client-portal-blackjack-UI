@@ -8,7 +8,7 @@ import Actions from './Actions'
 class Hand extends Component {
 
   constructor(props) {
-    super(props);
+    super();
     this.state = {
         hardValue: 0,
         softValue: 0,
@@ -19,6 +19,8 @@ class Hand extends Component {
         cards: [],
         holeCard: false
     }
+    this.hit = this.hit.bind(this);
+    this.reRenderCards = this.reRenderCards.bind(this);
   }
 
   calculateAceCount = (cards) => {
@@ -75,7 +77,7 @@ class Hand extends Component {
   }
 
   calculateValue = () => {
-    let hand = this.props.cards.cards ? this.props.cards.cards : this.props.cards;
+    let hand = this.state.cards
     let sum = 0;
     hand.forEach((card) => {
       sum += this.getCardValue(card)
@@ -105,32 +107,43 @@ class Hand extends Component {
       let cardRay = this.props.cards.cards;
       this.setState({
           cards: cardRay,
-          holeCard: this.props.isDealer ? true : false
+          //holeCard: this.props.isDealer ? true : false
       })
       let cardTotal = <div className="card-total">Total: {this.state.hardValue}</div>;
   }
 
-
-  componentDidMount(){
+  reRenderCards(){
       this.cardComponents = this.state.cards.map((card, index) => {
           this.getCardValue(card);
           let urlStr = `https://deckofcardsapi.com/static/img/${card}.png`
           return <Card value={card} key={index} url={urlStr} />
       });
       this.calculateValue();
-
   }
-
   componentDidMount(){
-      console.log(this.props.playerId);
+      this.reRenderCards();
   }
+
 
   hit(){
-      // axios.get('https://cp-blackjack.herokuapp.com/')
+      console.log(this.props.playerId)
+       axios.get(`https://cp-blackjack.herokuapp.com/hit/${this.props.playerId}/`).then((res)=> {
+           console.log(this.state.cards);
+
+           console.log(res.data[this.props.playerId-1].hand.cards);
+           this.setState({
+               cards: res.data[this.props.playerId-1].hand.cards
+           }, ()=>{
+               console.log(this.state.cards)
+               this.reRenderCards();
+               this.calculateValue();
+           });
+       }).catch(err => {
+           console.log(err);
+       })
   }
 
   render() {
-
 
     return (
 

@@ -41,6 +41,7 @@ class Player extends Component {
           <h3>{this.props.player.name}</h3>
           <h3>${this.state.bankRoll}</h3 >
         </div>
+
         {hands.length > 0 ? hands : <Wager modifyWager={this.modifyWager} wager={this.state.wager}/>}
       </div>
     );
