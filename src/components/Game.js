@@ -100,7 +100,13 @@ class Game extends Component {
             {!this.state.areHandsDealt ? <NewPlayerForm addPlayer={this.addPlayer}/> : '' }
         </div>
         <div className="dealer-wrapper">
-            <Dealer isHandDealt={this.state.areHandsDealt} dealer={this.state.dealer}   activePlayer={this.state.activePlayer} changeActivePlayer={this.changeActivePlayer}/>
+            {this.state.activePlayer !== 0 ?
+              <Dealer isHandDealt={this.state.areHandsDealt} dealer={this.state.dealer}   activePlayer={this.state.activePlayer} changeActivePlayer={this.changeActivePlayer}/>
+            :
+              <Dealer isHandDealt={this.state.areHandsDealt} dealer={this.state.dealer}   activePlayer={this.state.activePlayer} changeActivePlayer={this.changeActivePlayer}/>
+            }
+
+
         </div>
         <div className="players-wrapper">
           {this.players}

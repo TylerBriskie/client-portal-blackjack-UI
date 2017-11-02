@@ -14,10 +14,9 @@ class DealerHand extends Component {
             isBusted: false,
             hasBlackJack: false,
             cards: [],
-            stuff: 0
+            isHittable: false
         };
         this.hit = this.hit.bind(this);
-        // this.reRenderCards = this.reRenderCards.bind(this);
     }
 
     cardComponent = [];
@@ -93,8 +92,15 @@ class DealerHand extends Component {
           this.setState({
               softValue: temp
           }, () => {
-            if (this.state.softValue < 17 && this.props.activePlayer === 0){
-              this.hit();
+            if (this.state.softValue < 22 ){
+              this.setState({
+                isHittable: true
+              });
+            }
+            if (this.state.softValue >= 22 && this.props.activePlayer === 0 ){
+              this.setState({
+                isHittable: false
+              });
             }
             if (this.state.softValue > 21){
               this.setState({
@@ -128,24 +134,31 @@ class DealerHand extends Component {
     }
 
     hit(){
-        axios.get(`https://cp-blackjack.herokuapp.com/hit/0/`).then((res)=> {
-            this.setState({
-                cards: res.data[res.data.length - 1].hand.cards
-            }, ()=>{
-                this.reRenderCards();
-                this.calculateValue();
-                this.setState({
-                  stuff: 1
-                });
+      axios.get(`https://cp-blackjack.herokuapp.com/hit/0/`).then((res)=> {
+        this.setState({
+            cards: res.data[res.data.length - 1].hand.cards
+        }, ()=>{
+            this.reRenderCards();
+            this.calculateValue();
 
-            });
-        }).catch(err => {
-            console.log(err);
-        })
+        });
+      }).catch(err => {
+          console.log(err);
+      })
+    }
+
+    myFunc() {
+      console.log('myFunc');
+      if (this.state.isHittable && this.props.activePlayer === 0){
+        console.log();
+        this.hit();
+      }
     }
 
 
     render() {
+      this.myFunc();
+
       this.cardComponents = this.state.cards.map((card, index) => {
         this.getCardValue(card);
         let urlStr = (index === 0 && (this.props.activePlayer !== 0) ? 'http://www.wopc.co.uk/images/subjects/delarue/animal-grab-back.jpg' : `https://deckofcardsapi.com/static/img/${card}.png`);
