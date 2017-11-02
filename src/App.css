@@ -97,10 +97,23 @@ button:focus {
 .player-wrapper {
   display:flex;
   flex-direction:column-reverse;
-  outline: black 1px solid;
+  /*outline: black 1px solid;*/
   height: 400px;
   width: 300px;
   font-family: 'Days One', sans-serif;
+}
+
+.active-player {
+  box-shadow: 0px 0px 5em 0em green;
+  animation-name: active-player-animation;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes active-player-animation {
+  0%   {box-shadow: 0px 0px 2em 0em green;}
+  50%  {box-shadow: 0px 0px 5em 0em green;}
+  100% {box-shadow: 0px 0px 2em 0em green;}
 }
 
 .players-wrapper {
