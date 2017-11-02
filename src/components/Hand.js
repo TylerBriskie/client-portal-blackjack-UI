@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
+import bustedLogo from '../Assets/bust.png';
 import Card from './Card'
 import Wager from './Wager'
 import axios from 'axios';
@@ -156,6 +157,8 @@ class Hand extends Component {
       return (
       <div>
         <div className="hand-wrapper">
+
+            {this.state.isBusted ? <img className="player-busted-image" src={bustedLogo} alt="bust pic" /> : '' }
           {
             this.props.isHandDealt || this.props.isDealer ?
             this.cardComponents :
