@@ -16,17 +16,15 @@ class Dealer extends Component {
 
     dealerHand = [];
     componentWillMount(){
-        this.dealerHand = this.props.cards ? this.props.cards : ['AS', 'KS']
     }
 
-    render() {
-    console.log(this.props);
-    console.log(this.dealerHand);
-        return (
-            <div>
-                <Hand isHandDealt={this.props.isHandDealt} isDealer={true} playerId={0} cards={this.dealerHand} />
-            </div>
-        );
+    render()  {
+      console.log(this.props);
+      return (
+          <div>
+              <Hand isHandDealt={this.props.isHandDealt} isDealer={true} playerId={0} cards={this.props.cards.cards} />
+          </div>
+      );
     }
 }
 

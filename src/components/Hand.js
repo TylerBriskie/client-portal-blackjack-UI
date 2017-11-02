@@ -112,10 +112,10 @@ class Hand extends Component {
 
   cardComponents = [];
 
-  componentWillMount(){
-        console.log(this.props);
+  componentDidMount(){
+      console.log(this.props);
       let cardRay = this.props.cards.cards ? this.props.cards.cards : this.props.cards;
-      console.log(cardRay, this.props.isDealer);
+      // console.log(cardRay, this.props.isDealer);
       this.setState({
           cards: cardRay
       });
@@ -151,7 +151,7 @@ class Hand extends Component {
   }
 
   render() {
-      console.log(this.state.isHittable)
+      // console.log(this.state.isHittable)
       return (
       <div>
       <div className="hand-wrapper">
