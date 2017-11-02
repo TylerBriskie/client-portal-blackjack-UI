@@ -15,7 +15,7 @@ class Actions extends Component {
       return(
         <div className="actions-wrapper">
             {this.props.isHittable ? <button className="hit-button" onClick={()=>this.props.hit()}>Hit</button> : ''}
-            <button className="stay-button">Stay</button>
+            <button className="stay-button" onClick={()=>this.props.stay()}>Stay</button>
         </div>
         )
     }

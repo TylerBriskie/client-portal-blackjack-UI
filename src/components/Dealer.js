@@ -20,7 +20,6 @@ class Dealer extends Component {
 
       return (
           <div>
-            <h1>Not Dealt</h1>
           </div>
       );
     }

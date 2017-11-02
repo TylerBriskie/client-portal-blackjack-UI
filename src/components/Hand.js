@@ -19,6 +19,7 @@ class Hand extends Component {
         isHittable: true,
     };
     this.hit = this.hit.bind(this);
+    this.stay = this.stay.bind(this);
     this.reRenderCards = this.reRenderCards.bind(this);
   }
 
@@ -146,6 +147,11 @@ class Hand extends Component {
        })
   }
 
+  stay() {
+    console.log(this.props);
+    this.props.changeActivePlayer();
+  }
+
   render() {
       return (
       <div>
@@ -156,7 +162,7 @@ class Hand extends Component {
             <Wager wager={this.props.wager} modifyWager={this.props.modifyWager} />
           }
           {
-            this.props.isDealer ? '' : <Actions isHittable={this.state.isHittable} hit={this.hit}/>
+            this.props.playerId === this.props.activePlayer ?  <Actions isHittable={this.state.isHittable} hit={this.hit} stay={this.stay}/> : ''
           }
 
         </div>

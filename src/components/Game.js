@@ -13,10 +13,12 @@ class Game extends Component {
         players: [],
         deckCount: 1,
         areHandsDealt: false,
-        dealer: {}
+        dealer: {},
+        activePlayer: 1
     };
     this.addPlayer = this.addPlayer.bind(this);
     this.dealInitialCards = this.dealInitialCards.bind(this);
+    this.changeActivePlayer = this.changeActivePlayer.bind(this);
   }
 
   tempDealer = {
@@ -73,13 +75,30 @@ class Game extends Component {
       })
   }
 
+  changeActivePlayer() {
+
+    let tempActive = this.state.activePlayer;
+    console.log(this.state.activePlayer);
+    if(tempActive === this.state.players.length) {
+      tempActive = 0;
+    }else {
+      tempActive++;
+    }
+    this.setState({
+      activePlayer: tempActive
+    }, () => {
+      console.log(this.state.activePlayer);
+    });
+    console.log(this.state.activePlayer);
+  }
+
   componentDidMount() {
-    this.players = this.state.players.map((player, index) => <Player player={player} key={index} isHandDealt={this.state.areHandsDealt}/>)
+    this.players = this.state.players.map((player, index) => <Player player={player} key={index} isHandDealt={this.state.areHandsDealt} activePlayer={this.state.activePlayer} changeActivePlayer={this.changeActivePlayer}/>)
   }
 
   render() {
       // console.log(this.state.players[0]);
-      this.players = this.state.players.map((player, index) => <Player player={player} key={index} isHandDealt={this.state.areHandsDealt}/>)
+      this.players = this.state.players.map((player, index) => <Player player={player} key={index} isHandDealt={this.state.areHandsDealt} activePlayer={this.state.activePlayer} changeActivePlayer={this.changeActivePlayer}/>)
       return (
       <div className="game-wrapper">
         <div className="new-player-form-wrapper">
