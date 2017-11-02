@@ -9,7 +9,7 @@
 
 .App-header {
   background-color: #222;
-  height: 100px;
+  height: 75px;
   padding: 20px;
   color: white;
 }
@@ -18,7 +18,7 @@
   display:inline;
   font-family: 'Rancho', cursive;
   font-size: 60px;
-  margin: 0 5em;
+  margin: 0 2em;
 }
 
 .App-title {
@@ -39,8 +39,8 @@ button:focus {
 
 .wager-button {
   border-radius: 50%;
-  width: 3em;
-  height: 3em;
+  width: 2em;
+  height: 2em;
   background-color: darkgreen;
   color: white;
   font-size: 24px;
@@ -97,9 +97,8 @@ button:focus {
 .player-wrapper {
   display:flex;
   flex-direction:column-reverse;
-  /*outline: black 1px solid;*/
-  height: 400px;
-  width: 300px;
+  height: 300px;
+  width: 220px;
   font-family: 'Days One', sans-serif;
 }
 
@@ -125,11 +124,11 @@ button:focus {
 .dealer-wrapper {
   display:flex;
   flex-direction:column-reverse;
-  height: 200px;
-  width: 300px;
+  padding-top:20px;
+  height: 250px;
+  width: 220px;
   margin: auto;
   font-family: 'Days One', sans-serif;
-  outline: red 1px solid;
 }
 
 .actions-wrapper {
