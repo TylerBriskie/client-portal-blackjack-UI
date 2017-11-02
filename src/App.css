@@ -155,6 +155,11 @@ button:focus {
   color: white;
 }
 
+.player-busted-image {
+  position: absolute;
+  width: 18%;
+}
+
 .success-button {
   background-color: #22AA22;
   padding: .5em 3em;
