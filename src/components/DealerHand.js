@@ -172,7 +172,7 @@ class DealerHand extends Component {
                     {this.cardComponents}
                   </div>
                   <div className="card-total">
-                    Total: {this.state.hardValue} {this.state.softValue !== this.state.hardValue ? ', soft (' + this.state.softValue + ')': ''}
+                    Dealer Has: {this.state.hardValue} {this.state.softValue !== this.state.hardValue ? ', soft (' + this.state.softValue + ')': ''}
                   </div>
               </div>
           );
