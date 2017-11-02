@@ -1,28 +1,26 @@
 import React, { Component } from 'react';
-import Hand from './Hand';
+import DealerHand from './DealerHand';
 import '../App.css';
-import Player from './Player';
-
 
 class Dealer extends Component {
 
     constructor(props) {
         super(props);
-
-        this.state= {
-            isDealer: true
-        }
-    }
-
-    dealerHand = [];
-    componentWillMount(){
+        this.state= {}
     }
 
     render()  {
-      console.log(this.props);
+      if(this.props.dealer.hand) {
+        return (
+            <div>
+              <DealerHand cards={this.props.dealer.hand.cards}/>
+            </div>
+        );
+      }
+
       return (
           <div>
-              <Hand isHandDealt={this.props.isHandDealt} isDealer={true} playerId={0} cards={this.props.cards.cards} />
+            <h1>Not Dealt</h1>
           </div>
       );
     }

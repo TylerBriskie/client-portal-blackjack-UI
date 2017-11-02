@@ -112,7 +112,7 @@ button:focus {
 .dealer-wrapper {
   display:flex;
   flex-direction:column-reverse;
-  height: 300px;
+  height: 200px;
   width: 300px;
   margin: auto;
   font-family: 'Days One', sans-serif;

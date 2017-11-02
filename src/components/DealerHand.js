@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import '../App.css';
-import Card from './Card'
-import Wager from './Wager'
-import axios from 'axios';
-import Actions from './Actions'
+import Card from './Card';
 
-class Hand extends Component {
+class DealerHand extends Component {
 
     constructor(props) {
         super();
@@ -18,9 +15,11 @@ class Hand extends Component {
             cards: [],
             isHittable: true,
         };
-        this.hit = this.hit.bind(this);
-        this.reRenderCards = this.reRenderCards.bind(this);
+        // this.hit = this.hit.bind(this);
+        // this.reRenderCards = this.reRenderCards.bind(this);
     }
+
+    cardComponent = [];
 
     calculateAceCount = (cards) => {
         let count = 0;
@@ -105,26 +104,21 @@ class Hand extends Component {
                 })
             }
         });
-
-
-
     };
 
-    cardComponents = [];
-
     componentWillMount(){
-
-        let cardRay = this.props.cards.cards ? this.props.cards.cards : this.props.cards;
+        let cardRay = this.props.cards;
         console.log(cardRay, this.props.isDealer);
         this.setState({
             cards: cardRay
         });
     }
 
+//op4813.scottjones.codes/res/cards/card_back.png
     reRenderCards(){
         this.cardComponents = this.state.cards.map((card, index) => {
             this.getCardValue(card);
-            let urlStr = `https://deckofcardsapi.com/static/img/${card}.png`
+            let urlStr = (index === 1 ? 'http://www.wopc.co.uk/images/subjects/delarue/animal-grab-back.jpg' : `https://deckofcardsapi.com/static/img/${card}.png`);
             return <Card value={card} key={index} url={urlStr} />
         });
         this.calculateValue();
@@ -135,35 +129,28 @@ class Hand extends Component {
     }
 
 
-    hit(){
-        axios.get(`https://cp-blackjack.herokuapp.com/hit/${this.props.playerId}/`).then((res)=> {
+    // hit(){
+    //     axios.get(`https://cp-blackjack.herokuapp.com/hit/${this.props.playerId}/`).then((res)=> {
+    //
+    //         this.setState({
+    //             cards: res.data[this.props.playerId-1].hand.cards
+    //         }, ()=>{
+    //             this.reRenderCards();
+    //             this.calculateValue();
+    //
+    //         });
+    //     }).catch(err => {
+    //         console.log(err);
+    //     })
+    // }
 
-            this.setState({
-                cards: res.data[this.props.playerId-1].hand.cards
-            }, ()=>{
-                this.reRenderCards();
-                this.calculateValue();
-
-            });
-        }).catch(err => {
-            console.log(err);
-        })
-    }
 
     render() {
-        console.log(this.state.isHittable)
         return (
+
             <div>
                 <div className="hand-wrapper">
-                    {
-                        this.props.isHandDealt || this.props.isDealer ?
-                            this.cardComponents :
-                            <Wager wager={this.props.wager} modifyWager={this.props.modifyWager} />
-                    }
-                    {
-                        this.props.isDealer ? '' : <Actions isHittable={this.state.isHittable} hit={this.hit}/>
-                    }
-
+                  {this.cardComponents}
                 </div>
                 {
                     this.props.isHandDealt ?
@@ -175,4 +162,4 @@ class Hand extends Component {
     }
 }
 
-export default Hand;
+export default DealerHand;

@@ -12,11 +12,17 @@ class Game extends Component {
     this.state = {
         players: [],
         deckCount: 1,
-        areHandsDealt: false
+        areHandsDealt: false,
+        dealer: {}
     };
-
-      this.addPlayer = this.addPlayer.bind(this);
+    this.addPlayer = this.addPlayer.bind(this);
     this.dealInitialCards = this.dealInitialCards.bind(this);
+  }
+
+  tempDealer = {
+    id: 0,
+    name: 'Dealer',
+    hand: []
   }
 
   addPlayer(player) {
@@ -26,8 +32,6 @@ class Game extends Component {
       players: newPlayersArray
     });
   }
-
-  dealerHand = [];
 
   dealInitialCards(){
     var payload = [];
@@ -41,15 +45,17 @@ class Game extends Component {
 
     axios.post('https://cp-blackjack.herokuapp.com/setup/', payload)
       .then((response) => {
-        console.log(response)
+        // console.log(response)
         var tempPlayers = this.state.players.slice();
         for (var i = 0; i < tempPlayers.length; i++){
             tempPlayers[i].hands.push(response.data[i].hand)
         }
-        this.dealerHand.cards = response.data[i].hand.cards;
+        this.tempDealer.hand = response.data[i].hand;
+
         this.setState({
             areHandsDealt: true,
-            players: tempPlayers
+            players: tempPlayers,
+            dealer: this.tempDealer
         });
       })
       .catch(function (error) {
@@ -60,26 +66,31 @@ class Game extends Component {
   componentWillMount(){
     axios.get('https://cp-blackjack.herokuapp.com/resetHand/')
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch(function(err){
           console.log(err);
       })
   }
 
+  componentDidMount() {
+    this.players = this.state.players.map((player, index) => <Player player={player} key={index} isHandDealt={this.state.areHandsDealt}/>)
+  }
+
   render() {
-      let players = this.state.players.map((player, index) => <Player player={player} key={index} isHandDealt={this.state.areHandsDealt}/>);
+      // console.log(this.state.players[0]);
+      this.players = this.state.players.map((player, index) => <Player player={player} key={index} isHandDealt={this.state.areHandsDealt}/>)
       return (
       <div className="game-wrapper">
         <div className="new-player-form-wrapper">
             {!this.state.areHandsDealt ? <NewPlayerForm addPlayer={this.addPlayer}/> : '' }
         </div>
         <div className="dealer-wrapper">
-            {console.log(this.dealerHand)}
-            <Dealer isDealer={true} isHandDealt={this.state.areHandsDealt} cards={this.dealerHand} />
+            {console.log(this.state.dealer)}
+            <Dealer isHandDealt={this.state.areHandsDealt} dealer={this.state.dealer} />
         </div>
         <div className="players-wrapper">
-          {players}
+          {this.players}
         </div>
         {this.state.players.length > 0 && !this.state.areHandsDealt ?
         <button id="deal-cards-button" className="success-button" onClick={this.dealInitialCards}>Place Your Bets</button>

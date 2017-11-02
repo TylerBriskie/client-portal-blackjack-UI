@@ -77,42 +77,38 @@ class Hand extends Component {
     });
     this.setState({
         hardValue: sum,
+    }, () => {
+      if (hand.length === 2 && this.state.hardValue === 21){
+          this.setState({
+              hasBlackJack: true
+          })
+      }
     });
     let tempAces = this.calculateAceCount(hand)
     this.setState({
         aceCount: tempAces,
-    }, () =>{
-
+    }, () => {
         let temp = this.softVal(sum);
         this.setState({
             softValue: temp
+        }, () => {
+          if (this.state.softValue >= 21){
+              this.setState({
+                  isHittable: false
+              })
+          }
+          if (this.state.softValue > 21){
+              this.setState({
+                  isBusted: true
+              })
+          }
         });
-
-        if (this.state.softValue >= 21){
-            this.setState({
-                isHittable: false
-            })
-        }
-        if (this.state.softValue > 21){
-            this.setState({
-                isBusted: true
-            })
-        }
-
-        if (hand.length === 2 && this.state.hardValue === 21){
-            this.setState({
-                hasBlackJack: true
-            })
-        }
     });
-
-
-
   };
 
   cardComponents = [];
 
-  componentDidMount(){
+  componentWillMount(){
       console.log(this.props);
       let cardRay = this.props.cards.cards ? this.props.cards.cards : this.props.cards;
       // console.log(cardRay, this.props.isDealer);
@@ -151,24 +147,23 @@ class Hand extends Component {
   }
 
   render() {
-      // console.log(this.state.isHittable)
       return (
       <div>
-      <div className="hand-wrapper">
-        {
-          this.props.isHandDealt || this.props.isDealer ?
-          this.cardComponents :
-          <Wager wager={this.props.wager} modifyWager={this.props.modifyWager} />
-        }
-        {
-            this.props.isDealer ? '' : <Actions isHittable={this.state.isHittable} hit={this.hit}/>
-        }
-
-      </div>
+        <div className="hand-wrapper">
           {
-              this.props.isHandDealt ?
-                  <div className="card-total">Total: {this.state.hardValue} {this.state.softValue !== this.state.hardValue ? ', soft (' + this.state.softValue + ')': ''}</div> :
-                  ''
+            this.props.isHandDealt || this.props.isDealer ?
+            this.cardComponents :
+            <Wager wager={this.props.wager} modifyWager={this.props.modifyWager} />
+          }
+          {
+            this.props.isDealer ? '' : <Actions isHittable={this.state.isHittable} hit={this.hit}/>
+          }
+
+        </div>
+          {
+            this.props.isHandDealt ?
+              <div className="card-total">Total: {this.state.hardValue} {this.state.softValue !== this.state.hardValue ? ', soft (' + this.state.softValue + ')': ''}</div> :
+              ''
           }
       </div>
     );
