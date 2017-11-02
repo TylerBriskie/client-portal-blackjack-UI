@@ -12,8 +12,8 @@ class Dealer extends Component {
     render()  {
       if(this.props.dealer.hand) {
         return (
-            <div>
-              <DealerHand cards={this.props.dealer.hand.cards}/>
+            <div className={"player-wrapper " + ((this.props.activePlayer === 0) && this.props.isHandDealt ? 'active-player' : '')}>
+              <DealerHand cards={this.props.dealer.hand.cards} activePlayer={this.props.activePlayer} changeActivePlayer={this.props.changeActivePlayer}/>
             </div>
         );
       }

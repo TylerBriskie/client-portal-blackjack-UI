@@ -36,7 +36,7 @@ class Player extends Component {
       <Hand isHandDealt = {this.props.isHandDealt} isDealer={false} playerId={this.props.player.id} cards={hand} wager={this.state.wager} activePlayer={this.props.activePlayer} changeActivePlayer={this.props.changeActivePlayer} key={index}/>
     );
     return (
-      <div className="player-wrapper">
+      <div className={"player-wrapper " + ((this.props.activePlayer === this.props.player.id) && this.props.isHandDealt ? 'active-player' : '')}>
         <div className="player-info">
           <h3>{this.props.player.name}</h3>
           <h3>${this.state.bankRoll}</h3 >

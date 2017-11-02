@@ -76,9 +76,7 @@ class Game extends Component {
   }
 
   changeActivePlayer() {
-
     let tempActive = this.state.activePlayer;
-    console.log(this.state.activePlayer);
     if(tempActive === this.state.players.length) {
       tempActive = 0;
     }else {
@@ -86,27 +84,23 @@ class Game extends Component {
     }
     this.setState({
       activePlayer: tempActive
-    }, () => {
-      console.log(this.state.activePlayer);
     });
-    console.log(this.state.activePlayer);
   }
 
-  componentDidMount() {
-    this.players = this.state.players.map((player, index) => <Player player={player} key={index} isHandDealt={this.state.areHandsDealt} activePlayer={this.state.activePlayer} changeActivePlayer={this.changeActivePlayer}/>)
-  }
+  // componentDidMount() {
+  //   this.players = this.state.players.map((player, index) => <Player player={player} key={index} isHandDealt={this.state.areHandsDealt} activePlayer={this.state.activePlayer} changeActivePlayer={this.changeActivePlayer}/>)
+  // }
 
   render() {
-      // console.log(this.state.players[0]);
-      this.players = this.state.players.map((player, index) => <Player player={player} key={index} isHandDealt={this.state.areHandsDealt} activePlayer={this.state.activePlayer} changeActivePlayer={this.changeActivePlayer}/>)
+      this.players = this.state.players.map((player, index) => <Player player={player}
+       key={index} isHandDealt={this.state.areHandsDealt}  activePlayer={this.state.activePlayer} changeActivePlayer={this.changeActivePlayer}/>)
       return (
       <div className="game-wrapper">
         <div className="new-player-form-wrapper">
             {!this.state.areHandsDealt ? <NewPlayerForm addPlayer={this.addPlayer}/> : '' }
         </div>
         <div className="dealer-wrapper">
-            {console.log(this.state.dealer)}
-            <Dealer isHandDealt={this.state.areHandsDealt} dealer={this.state.dealer} />
+            <Dealer isHandDealt={this.state.areHandsDealt} dealer={this.state.dealer}   activePlayer={this.state.activePlayer} changeActivePlayer={this.changeActivePlayer}/>
         </div>
         <div className="players-wrapper">
           {this.players}

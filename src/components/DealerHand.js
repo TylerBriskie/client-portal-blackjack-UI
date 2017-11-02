@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import Card from './Card';
+import axios from 'axios';
 
 class DealerHand extends Component {
 
@@ -13,9 +14,9 @@ class DealerHand extends Component {
             isBusted: false,
             hasBlackJack: false,
             cards: [],
-            isHittable: true,
+            stuff: 0
         };
-        // this.hit = this.hit.bind(this);
+        this.hit = this.hit.bind(this);
         // this.reRenderCards = this.reRenderCards.bind(this);
     }
 
@@ -76,89 +77,99 @@ class DealerHand extends Component {
         });
         this.setState({
             hardValue: sum,
+        }, () => {
+          if (hand.length === 2 && this.state.hardValue === 21){
+              this.setState({
+                  hasBlackJack: true
+              })
+          }
         });
         let tempAces = this.calculateAceCount(hand)
         this.setState({
             aceCount: tempAces,
         }, () =>{
-
-            let temp = this.softVal(sum);
-            this.setState({
-                softValue: temp
-            });
-
-            if (this.state.softValue >= 21){
-                this.setState({
-                    isHittable: false
-                })
+          console.log('hello', this.props.activePlayer);
+          let temp = this.softVal(sum);
+          this.setState({
+              softValue: temp
+          }, () => {
+            if (this.state.softValue < 17 && this.props.activePlayer === 0){
+              this.hit();
             }
             if (this.state.softValue > 21){
-                this.setState({
-                    isBusted: true
-                })
+              this.setState({
+                  isBusted: true
+              })
             }
+          });
 
-            if (hand.length === 2 && this.state.hardValue === 21){
-                this.setState({
-                    hasBlackJack: true
-                })
-            }
         });
     };
 
     componentWillMount(){
-        let cardRay = this.props.cards;
-        console.log(cardRay, this.props.isDealer);
-        this.setState({
-            cards: cardRay
-        });
+      let cardRay = this.props.cards;
+      this.setState({
+          cards: cardRay
+      });
     }
 
-//op4813.scottjones.codes/res/cards/card_back.png
     reRenderCards(){
-        this.cardComponents = this.state.cards.map((card, index) => {
-            this.getCardValue(card);
-            let urlStr = (index === 1 ? 'http://www.wopc.co.uk/images/subjects/delarue/animal-grab-back.jpg' : `https://deckofcardsapi.com/static/img/${card}.png`);
-            return <Card value={card} key={index} url={urlStr} />
-        });
-        this.calculateValue();
+      this.calculateValue();
+      this.cardComponents = this.state.cards.map((card, index) => {
+        this.getCardValue(card);
+        let urlStr = (index === 0 && (this.props.activePlayer !== 0) ? 'http://www.wopc.co.uk/images/subjects/delarue/animal-grab-back.jpg' : `https://deckofcardsapi.com/static/img/${card}.png`);
+        return <Card value={card} key={index} url={urlStr} />
+      });
     }
 
     componentDidMount(){
+        console.log('rerenderer');
         this.reRenderCards();
     }
 
+    hit(){
+        axios.get(`https://cp-blackjack.herokuapp.com/hit/0/`).then((res)=> {
+            this.setState({
+                cards: res.data[res.data.length - 1].hand.cards
+            }, ()=>{
+                this.reRenderCards();
+                this.calculateValue();
+                this.setState({
+                  stuff: 1
+                });
 
-    // hit(){
-    //     axios.get(`https://cp-blackjack.herokuapp.com/hit/${this.props.playerId}/`).then((res)=> {
-    //
-    //         this.setState({
-    //             cards: res.data[this.props.playerId-1].hand.cards
-    //         }, ()=>{
-    //             this.reRenderCards();
-    //             this.calculateValue();
-    //
-    //         });
-    //     }).catch(err => {
-    //         console.log(err);
-    //     })
-    // }
+            });
+        }).catch(err => {
+            console.log(err);
+        })
+    }
 
 
     render() {
-        return (
+      this.cardComponents = this.state.cards.map((card, index) => {
+        this.getCardValue(card);
+        let urlStr = (index === 0 && (this.props.activePlayer !== 0) ? 'http://www.wopc.co.uk/images/subjects/delarue/animal-grab-back.jpg' : `https://deckofcardsapi.com/static/img/${card}.png`);
+        return <Card value={card} key={index} url={urlStr} />
+      });
 
-            <div>
-                <div className="hand-wrapper">
-                  {this.cardComponents}
-                </div>
-                {
-                    this.props.isHandDealt ?
-                        <div className="card-total">Total: {this.state.hardValue} {this.state.softValue !== this.state.hardValue ? ', soft (' + this.state.softValue + ')': ''}</div> :
-                        ''
-                }
-            </div>
-        );
+        if(this.props.activePlayer === 0) {
+          return (
+              <div>
+                  <div className="hand-wrapper">
+                    {this.cardComponents}
+                  </div>
+                  <div className="card-total">
+                    Total: {this.state.hardValue} {this.state.softValue !== this.state.hardValue ? ', soft (' + this.state.softValue + ')': ''}
+                  </div>
+              </div>
+          );
+      } else {
+        return (
+          <div className="hand-wrapper">
+            {this.cardComponents}
+          </div>
+        )
+      }
     }
 }
 
