@@ -113,7 +113,6 @@ class Hand extends Component {
   cardComponents = [];
 
   componentWillMount(){
-      console.log(this.props);
       let cardRay = this.props.cards.cards ? this.props.cards.cards : this.props.cards;
       // console.log(cardRay, this.props.isDealer);
       this.setState({
@@ -151,7 +150,6 @@ class Hand extends Component {
   }
 
   stay() {
-    console.log(this.props);
     this.props.changeActivePlayer();
   }
 

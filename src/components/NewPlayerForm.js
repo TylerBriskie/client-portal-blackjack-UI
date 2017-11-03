@@ -42,7 +42,6 @@ class NewPlayerForm extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <form id='new-player-form' onSubmit={this.handleSubmit}>
         <label name="player-name">

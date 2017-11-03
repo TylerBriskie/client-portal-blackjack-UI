@@ -37,10 +37,8 @@ class Game extends Component {
   }
 
     modifyWager(amt, playerId){
-      console.log(this.state.players);
-      console.log(amt, playerId);
+
       let newPlayersArray = this.state.players.slice();
-      console.log(newPlayersArray[playerId-1].wager);
         if(amt <= newPlayersArray[playerId-1].bankroll && (newPlayersArray[playerId-1].wager + amt > 0)) {
             var newWager = Math.max(5, newPlayersArray[playerId-1].wager + amt);
             var newBankroll = newPlayersArray[playerId-1].bankroll - amt;
@@ -65,8 +63,6 @@ class Game extends Component {
 
     axios.post('https://cp-blackjack.herokuapp.com/setup/', payload)
       .then((response) => {
-        console.log('payload to server: ', payload);
-        console.log("response from /setup/ : ", response)
         var tempPlayers = this.state.players.slice();
         for (var i = 0; i < tempPlayers.length; i++){
             tempPlayers[i].hands.push(response.data[i].hand)
@@ -108,7 +104,7 @@ class Game extends Component {
 
     handComplete(){
         axios.post(`https://cp-blackjack.herokuapp.com/handComplete/`, {}).then((res)=>{
-            console.log("response from /handComplete/ : ", res);
+
             let newPlayersArray = this.state.players.slice();
             for (var i=0; i<newPlayersArray.length; i++){
                 newPlayersArray[i].bankroll = res.data[i].bankRoll-this.state.players[i].wager;
@@ -121,8 +117,6 @@ class Game extends Component {
                 players: newPlayersArray,
                 dealer: {},
                 activePlayer: 1,
-            }, ()=>{
-                console.log(this.state.players);
             })
         }).catch((err)=>{
             console.log(err);
