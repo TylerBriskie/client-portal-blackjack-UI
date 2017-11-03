@@ -87,7 +87,6 @@ class DealerHand extends Component {
         this.setState({
             aceCount: tempAces,
         }, () =>{
-          console.log('hello', this.props.activePlayer);
           let temp = this.softVal(sum);
           this.setState({
               softValue: temp
@@ -129,7 +128,6 @@ class DealerHand extends Component {
     }
 
     componentDidMount(){
-        console.log('rerenderer');
         this.reRenderCards();
     }
 
@@ -148,7 +146,6 @@ class DealerHand extends Component {
     }
 
     myFunc() {
-      console.log('myFunc');
       if (this.state.isHittable && this.props.activePlayer === 0){
         console.log();
         this.hit();

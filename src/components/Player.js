@@ -10,23 +10,16 @@ class Player extends Component {
 
     this.state= {
       isDealer: false,
-      wager: 10,
-      bankRoll: 90
+      // wager: 10,
+      // bankRoll: 90
     }
     this.modifyWager = this.modifyWager.bind(this);
   }
 
   modifyWager(amt){
-    if(amt <= this.state.bankRoll && (this.state.wager + amt > 0)) {
-      var newWager = Math.max(5, this.state.wager + amt);
-      var newBankRoll = this.state.bankRoll - amt;
-      this.setState({
-        wager: newWager,
-        bankRoll: newBankRoll
-      });
-    }
+    this.props.modifyWager(amt, this.props.player.id);
 
-  }
+}
 
   render() {
 
@@ -39,10 +32,10 @@ class Player extends Component {
       <div className={"player-wrapper " + ((this.props.activePlayer === this.props.player.id) && this.props.isHandDealt ? 'active-player' : '')}>
         <div className="player-info">
           <h3>{this.props.player.name}</h3>
-          <h3>${this.state.bankRoll}</h3 >
+          <h3>${this.props.player.bankroll}</h3 >
         </div>
 
-        {hands.length > 0 ? hands : <Wager modifyWager={this.modifyWager} wager={this.state.wager}/>}
+        {hands.length > 0 ? hands : <Wager modifyWager={this.modifyWager} wager={this.props.player.wager}/>}
       </div>
     );
   }

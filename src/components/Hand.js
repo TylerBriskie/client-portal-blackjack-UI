@@ -102,6 +102,8 @@ class Hand extends Component {
           if (this.state.softValue > 21){
               this.setState({
                   isBusted: true
+              }, ()=>{
+                  this.props.changeActivePlayer();
               })
           }
         });

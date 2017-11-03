@@ -15,7 +15,9 @@ class NewPlayerForm extends Component {
   tempPlayer = {
     id: this.idIndex,
     name: '',
-    hands: []
+    hands: [],
+    wager: 10,
+    bankroll: 90,
   };
 
   tempName = '';
@@ -28,16 +30,19 @@ class NewPlayerForm extends Component {
     event.preventDefault();
     this.tempPlayer.name = this.tempName;
     (() => this.props.addPlayer(this.tempPlayer))();
-    this.idIndex++
+    this.idIndex++;
     this.tempPlayer = {
       id: this.idIndex,
       name: '',
-      hands: []
+      hands: [],
+      wager: 10,
+      bankroll: 90,
     };
     document.getElementById("new-player-form").reset();
   }
 
   render() {
+    console.log(this.props);
     return (
       <form id='new-player-form' onSubmit={this.handleSubmit}>
         <label name="player-name">
