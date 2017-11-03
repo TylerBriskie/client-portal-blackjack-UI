@@ -63,8 +63,9 @@ class DealerHand extends Component {
             sum = sum - 10;
             aceCount--;
         }
-        if (aceCount > 0 && val < 21) {
+        if (aceCount > 0 && val > 21) {
             sum = val - 10;
+
         }
         return sum;
     }
@@ -77,8 +78,8 @@ class DealerHand extends Component {
             sum += this.getCardValue(card)
         });
         tempState.hardValue = sum;
-        tempState.softValue = this.softVal(sum);
         tempState.aceCount = this.calculateAceCount(hand);
+        tempState.softValue = this.softVal(sum);
         if (hand.length === 2 && tempState.hardValue === 21) {
 
             tempState.hasBlackJack = true
@@ -118,31 +119,24 @@ class DealerHand extends Component {
     }
 
     componentDidMount() {
-        // this.reRenderCards();
+        this.reRenderCards();
     }
 
+
     hit() {
-        console.log('hit request sent');
-        console.log('soft Value : ', this.state.softValue)
+
         this.isHitting = true;
         axios.get(`https://cp-blackjack.herokuapp.com/hit/0/`).then((res) => {
-            this.isHitting = false;
-            console.log('hit request received');
+            console.log(res);
             this.setState({
                 cards: res.data[res.data.length - 1].hand.cards
             }, () => {
                 this.reRenderCards();
-
+                this.isHitting = false;
             });
         }).catch(err => {
             console.log(err);
         })
-    }
-
-    myFunc() {
-        if (this.state.isHittable && this.props.activePlayer === 0 && !this.isHitting) {
-            this.hit();
-        }
     }
 
 
