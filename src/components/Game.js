@@ -26,7 +26,7 @@ class Game extends Component {
     id: 0,
     name: 'Dealer',
     hand: []
-  }
+  };
 
   addPlayer(player) {
     let newPlayersArray = this.state.players.slice();
@@ -104,13 +104,26 @@ class Game extends Component {
 
     handComplete(){
         axios.post(`https://cp-blackjack.herokuapp.com/handComplete/`, {}).then((res)=>{
-
+            console.log(res);
             let newPlayersArray = this.state.players.slice();
             for (var i=0; i<newPlayersArray.length; i++){
-                newPlayersArray[i].bankroll = res.data[i].bankRoll-this.state.players[i].wager;
+                newPlayersArray[i].bankroll = res.data[i].bankRoll
+
+                if(res.data[i].bankRoll <= 0){
+                    newPlayersArray[i].gameOver = true;
+                    newPlayersArray[i].wager = 0;
+                    newPlayersArray[i].bankroll = 0;
+                } else if (res.data[i].bankRoll - this.state.players[i].wager > 0) {
+                    newPlayersArray[i].wager = this.state.players[i].wager;
+                    newPlayersArray[i].bankroll = res.data[i].bankRoll - this.state.players[i].wager;
+                } else {
+                    newPlayersArray[i].wager = res.data[i].bankRoll;
+                    newPlayersArray[i].bankroll = 0;
+                }
                 newPlayersArray[i].hands = [];
-                newPlayersArray[i].wager = this.state.players[i].wager;
+
             }
+
 
             this.setState({
                 areHandsDealt: false,

@@ -131,6 +131,10 @@ button:focus {
   font-family: 'Days One', sans-serif;
 }
 
+.new-player-form-wrapper {
+  margin-top: 3em;
+}
+
 .actions-wrapper {
   width: 100%;
   display:flex;
